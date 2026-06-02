@@ -29,7 +29,7 @@
 | Server | Home Ubuntu laptop, `192.168.1.50`, accessed via `ssh argajit@192.168.1.50` |
 | Outage fallback | Cloudflare Worker -> `https://argajitsarkr.github.io` (the existing static portfolio) |
 
-Ports on the laptop: frontend `:3001`, api `:8001` (so they never clash with anything else running).
+Ports on the laptop: frontend `:3002`, api `:8001`. (Port 3000 is the existing static-portfolio Docker container `argajitsarkar-site`; 3001 is `bluevolt-web`; 8000 is `bluevolt-api`. 3002 and 8001 are free.)
 
 ---
 
@@ -89,7 +89,7 @@ AUTH_TRUST_HOST=true
 DATABASE_URL=postgresql+asyncpg://argajit:<pwd>@db:5432/argajit
 REDIS_URL=redis://redis:6379/0
 FRONTEND_URL=https://argajitsrkar.in
-CORS_ORIGINS=https://argajitsrkar.in,http://localhost:3001
+CORS_ORIGINS=https://argajitsrkar.in,http://localhost:3002
 ADMIN_EMAILS=argajit05@gmail.com
 GOOGLE_CLIENT_ID=<same-as-frontend>
 GOOGLE_CLIENT_SECRET=<same-as-frontend>
