@@ -1,0 +1,13 @@
+name = "argajitsrkar-downtime"
+main = "src/index.js"
+compatibility_date = "2026-01-01"
+
+routes = [
+  { pattern = "argajitsrkar.in/*", zone_name = "argajitsrkar.in" },
+  { pattern = "www.argajitsrkar.in/*", zone_name = "argajitsrkar.in" }
+]
+# api.argajitsrkar.in is intentionally NOT routed - JSON clients should see
+# Cloudflare's parseable 5xx instead of an HTML redirect.
+
+[vars]
+FALLBACK_URL = "https://argajitsarkr.github.io/"

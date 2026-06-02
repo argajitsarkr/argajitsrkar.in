@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
+  <circle cx="25" cy="30" r="20" fill="#2c7a3e"/>
+  <text x="25" y="36" text-anchor="middle" font-family="Arial,sans-serif" font-weight="bold" font-size="14" fill="#fff">ASM</text>
+  <text x="55" y="32" font-family="Arial,sans-serif" font-weight="bold" font-size="14" fill="#2c7a3e">American Society</text>
+  <text x="55" y="46" font-family="Arial,sans-serif" font-size="11" fill="#555">for Microbiology</text>
+</svg>

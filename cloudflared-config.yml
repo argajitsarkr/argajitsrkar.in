@@ -1,0 +1,15 @@
+# Cloudflare Tunnel config for the home laptop.
+# Copy this to /etc/cloudflared/config.yml on the laptop, fill in tunnel ID + credentials file.
+# Reload: sudo systemctl restart cloudflared
+
+tunnel: <TUNNEL_ID>
+credentials-file: /etc/cloudflared/<TUNNEL_ID>.json
+
+ingress:
+  - hostname: argajitsrkar.in
+    service: http://localhost:3001
+  - hostname: www.argajitsrkar.in
+    service: http://localhost:3001
+  - hostname: api.argajitsrkar.in
+    service: http://localhost:8001
+  - service: http_status:404

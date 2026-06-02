@@ -1,0 +1,40 @@
+# Node / Next.js
+node_modules/
+.next/
+out/
+*.log
+npm-debug.log*
+.pnpm-debug.log*
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Env
+.env
+.env.local
+.env.*.local
+!.env.example
+!.env.local.example
+
+# Build / OS
+dist/
+build/
+.DS_Store
+Thumbs.db
+
+# Uploads (not committed - lives on volume / R2)
+uploads/*
+!uploads/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+
+# Wrangler
+.wrangler/
+worker/node_modules/

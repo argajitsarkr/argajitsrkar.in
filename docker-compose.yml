@@ -1,0 +1,73 @@
+version: "3.9"
+
+# argajitsrkar.in - full-stack site for Argajit Sarkar
+# Mirrors GrantSetu's compose pattern, scaled down (no Celery/scrapers).
+# Runs on the home Ubuntu laptop (192.168.1.50), fronted by Cloudflare Tunnel.
+
+services:
+
+  # ── Next.js Frontend ────────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://api.argajitsrkar.in}
+    container_name: argajit-frontend
+    ports:
+      - "3001:3000"
+    environment:
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+      - AUTH_TRUST_HOST=true
+    depends_on:
+      - api
+    restart: unless-stopped
+    mem_limit: 512m
+
+  # ── FastAPI Backend ─────────────────────────────────────────────────────────
+  api:
+    build: ./backend
+    container_name: argajit-api
+    ports:
+      - "8001:8000"
+    env_file: ./backend/.env
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./backend/app:/app/app
+      - ./backend/alembic:/app/alembic
+      - uploads:/app/uploads
+    restart: unless-stopped
+    mem_limit: 384m
+    command: >
+      sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"
+
+  # ── PostgreSQL ──────────────────────────────────────────────────────────────
+  db:
+    image: postgres:15-alpine
+    container_name: argajit-db
+    environment:
+      POSTGRES_USER: argajit
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
+      POSTGRES_DB: argajit
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    mem_limit: 256m
+
+  # ── Redis ───────────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: argajit-redis
+    command: redis-server --maxmemory 64mb --maxmemory-policy allkeys-lru
+    restart: unless-stopped
+    mem_limit: 96m
+
+volumes:
+  pgdata:
+  uploads:
